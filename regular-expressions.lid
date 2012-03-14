@@ -1,5 +1,5 @@
 library: regular-expressions
-files: od-library.dylan
+files: library.dylan
  match.dylan
  parse.dylan
  interface.dylan
