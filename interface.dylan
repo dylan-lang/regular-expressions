@@ -185,8 +185,6 @@ define inline function make-regex-positioner
   end method;
 end function make-regex-positioner;
 
-define constant <replacement> = type-union(<string>, <function>);
-
 // Replace 'pattern' with 'replacement-text' in 'big'.
 // @param big -- The original text on which to perform the replacements.
 // @param pattern -- The regex to replace.
@@ -200,7 +198,7 @@ define constant <replacement> = type-union(<string>, <function>);
 //   is #t.  (I don't believe this affects character set (e.g., [a-z]) matching.
 //   Check it.)
 define generic regex-replace
-    (big :: <string>, pattern :: <regex>, replacement :: <replacement>,
+    (big :: <string>, pattern :: <regex>, replacement :: type-union(<string>, <function>),
      #key start :: <integer>,
           end: epos :: <integer>,
           count :: false-or(<integer>),
@@ -208,7 +206,7 @@ define generic regex-replace
  => (new-string :: <string>);
 
 define method regex-replace
-    (big :: <string>, pattern :: <regex>, replacement :: <replacement>,
+    (big :: <string>, pattern :: <regex>, replacement :: type-union(<string>, <function>),
      #key count :: false-or(<integer>),
           start :: <integer> = 0,
           end: epos :: <integer> = big.size,
