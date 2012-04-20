@@ -416,8 +416,7 @@ define method split
      #key start :: <integer> = 0,
           end: epos :: <integer> = text.size,
           count :: <integer> = epos + 1,
-          case-sensitive :: <boolean> = #t,
-          remove-if-empty :: <boolean> = #f)
+          remove-if-empty? :: <boolean> = #f)
  => (parts :: <sequence>)
   local method find-regex (string :: <string>,
                            bpos :: <integer>,
@@ -431,6 +430,6 @@ define method split
           end
         end method find-regex;
   split(text, find-regex, start: start, end: epos, count: count,
-        remove-if-empty: remove-if-empty)
+        remove-if-empty?: remove-if-empty?)
 end method split;
 
