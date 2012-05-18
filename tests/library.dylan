@@ -33,7 +33,7 @@ define module regular-expressions-test-suite
   use testworks-specs;
   use streams;
   use strings,
-    import: { trim };
+    import: { strip-left };
 
   export regular-expressions-test-suite;
 end module regular-expressions-test-suite;
