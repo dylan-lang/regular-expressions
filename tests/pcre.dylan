@@ -14,7 +14,7 @@ define function run-pcre-checks
     let lines = make(<stretchy-vector>);
     while (line := read-line(stream, on-end-of-stream: #f))
       line-number := line-number + 1;
-      line := trim(line, from: #"left");
+      line := strip-left(line);
       if (empty?(line))
         // A section break is always preceded by a group result or "No match".
         // Some multi-line regular expression patterns have empty lines and we

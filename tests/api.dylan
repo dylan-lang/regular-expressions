@@ -23,7 +23,7 @@ define module-spec regular-expressions ()
   // Search and replace
   sealed generic-function regex-position
       (<regex>, <string>, #"key", #"start", #"end", #"case-sensitive")
-      => (false-or(<string>), #"rest");
+      => (false-or(<integer>), #"rest");
   sealed generic-function regex-replace
       (<string>, <regex>, <string>, #"key", #"start", #"end", #"case-sensitive", #"count")
       => (<string>);
