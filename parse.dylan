@@ -333,7 +333,7 @@ define method parse-minmax-quantifier
  => (qatom :: <quantified-atom>)
   local method parse-integer () => (int :: false-or(<integer>))
           let digits = make(<deque>);
-          while (lookahead(str) & digit?(lookahead(str)))
+          while (lookahead(str) & decimal-digit?(lookahead(str)))
             push-last(digits, lookahead(str));
             consume(str);
           end;

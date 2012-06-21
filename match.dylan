@@ -401,7 +401,7 @@ define method char-equal?
   if (case-sensitive?)
     char1 == char2;
   else
-    case-insensitive-equal(char1, char2);
+    char-equal-ic?(char1, char2);
   end if;
 end method char-equal?;
 

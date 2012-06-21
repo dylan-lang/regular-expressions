@@ -35,6 +35,7 @@ define library regular-expressions
   use dylan;
   use common-dylan;
   use string-extensions;
+  use strings;
   export
     regular-expressions,
     regex-implementation;
@@ -73,12 +74,23 @@ define module regex-implementation
   use common-dylan;
   use dylan-extensions,
     import: { string-hash };
-  use string-conversions;
-  use character-type;
-  use string-hacking;
-  use %do-replacement;
-  use %parse-string;
-  use substring-search;
+  use string-hacking,
+    import: { <case-insensitive-character-set>,
+              <case-sensitive-character-set>,
+              <character-set> };
+  use %do-replacement,
+    import: { do-replacement };
+  use %parse-string,
+    import: { consume,
+              lookahead,
+              parse-index,
+              <parse-string>,
+              parse-string };
+  use substring-search,
+    import: { make-substring-positioner };
+  use strings,
+    import: { char-equal-ic?,
+              decimal-digit? };
   use regular-expressions,
     export: all;
   export
