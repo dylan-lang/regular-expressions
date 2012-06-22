@@ -34,7 +34,6 @@ copyright: see below
 define library regular-expressions
   use dylan;
   use common-dylan;
-  use string-extensions;
   use strings;
   export
     regular-expressions,
@@ -74,11 +73,11 @@ define module regex-implementation
   use common-dylan;
   use dylan-extensions,
     import: { <byte-character>, string-hash };
-  use substring-search,
-    import: { make-substring-positioner };
   use strings,
     import: { char-equal-ic?,
               decimal-digit? };
+  use %strings,
+    import: { make-substring-positioner };
   use regular-expressions,
     export: all;
   export

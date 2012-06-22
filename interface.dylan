@@ -156,7 +156,7 @@ define method regex-position
       else
 	let initial = pattern.initial-substring;
 	let searcher = ~initial.empty?
-	  & make-substring-positioner(initial, case-sensitive: case-sensitive);
+	  & make-substring-positioner(initial, case-sensitive);
 	match-root?(pattern, substring, case-sensitive, pattern.regex-group-count,
 		    searcher);
       end if;
@@ -338,7 +338,7 @@ define method regex-search
       else
         let initial = pattern.initial-substring;
         let searcher = ~initial.empty?
-          & make-substring-positioner(initial, case-sensitive: case-sensitive);
+          & make-substring-positioner(initial, case-sensitive);
         match-root?(pattern, substring, case-sensitive, num-groups, searcher);
       end if;
   if (matched?)
