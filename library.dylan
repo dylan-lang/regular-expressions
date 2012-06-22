@@ -80,12 +80,6 @@ define module regex-implementation
               <character-set> };
   use %do-replacement,
     import: { do-replacement };
-  use %parse-string,
-    import: { consume,
-              lookahead,
-              parse-index,
-              <parse-string>,
-              parse-string };
   use substring-search,
     import: { make-substring-positioner };
   use strings,

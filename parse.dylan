@@ -853,3 +853,35 @@ define sealed domain make(singleton(<parsed-backreference>));
 // <parse-info> -- subclass of <object>
 define sealed domain make(singleton(<parse-info>));
 define sealed domain initialize(<parse-info>);
+
+
+// Parse strings: A string along with some state. A parse-string
+// supports two operations: lookahead and consume. lookahead(s) gets
+// the next character in the parse string, while consume(s) moves the
+// pointer along.
+//
+define class <parse-string> (<object>)
+  constant slot parse-string :: <sequence>,
+    required-init-keyword: #"string";
+  slot parse-index :: <integer> = 0;
+end;
+
+define method consume
+    (parser :: <parse-string>) => (result :: false-or(<parse-string>))
+  if (parser.parse-index < parser.parse-string.size)
+    parser.parse-index := parser.parse-index + 1;
+    parser
+  end if
+end method consume;
+
+define method lookahead
+    (parser :: <parse-string>) => (answer :: false-or(<character>))
+  let string :: <string> = parser.parse-string;
+  let index :: <integer> = parser.parse-index;
+  if (index < string.size)
+    string[index]
+  end
+end method lookahead;
+
+define sealed domain make(singleton(<parse-string>));
+define sealed domain initialize(<parse-string>);
