@@ -73,11 +73,7 @@ end module regular-expressions;
 define module regex-implementation
   use common-dylan;
   use dylan-extensions,
-    import: { string-hash };
-  use string-hacking,
-    import: { <case-insensitive-character-set>,
-              <case-sensitive-character-set>,
-              <character-set> };
+    import: { <byte-character>, string-hash };
   use %do-replacement,
     import: { do-replacement };
   use substring-search,

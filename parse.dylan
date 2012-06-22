@@ -876,7 +876,7 @@ end method consume;
 
 define method lookahead
     (parser :: <parse-string>) => (answer :: false-or(<character>))
-  let string :: <string> = parser.parse-string;
+  let string = parser.parse-string;
   let index :: <integer> = parser.parse-index;
   if (index < string.size)
     string[index]
