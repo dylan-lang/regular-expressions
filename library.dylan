@@ -74,8 +74,6 @@ define module regex-implementation
   use common-dylan;
   use dylan-extensions,
     import: { <byte-character>, string-hash };
-  use %do-replacement,
-    import: { do-replacement };
   use substring-search,
     import: { make-substring-positioner };
   use strings,

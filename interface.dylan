@@ -217,6 +217,83 @@ define method regex-replace
   do-replacement(positioner, replacement, big, start, epos, count, #t);
 end method regex-replace;
 
+// The local method expand-replace-sequence probably generates
+// excessive garbage for replace-with's that involve backslashes.  One
+// might try to allocate the largest newest-piece that'll fit between
+// backslashes, rather than turn each string into a character every
+// time.
+//
+define inline function do-replacement 
+    (positioner :: <function>, new-substring :: <string>,
+     input :: <string>, start :: <integer>, input-end :: false-or(<integer>), 
+     count :: false-or(<integer>), expand-backreferences :: <boolean>)
+ => (new-string :: <string>)
+  local method digit-to-integer (c :: <character>) => (digit :: <integer>)
+          select (c)
+            '0' => 0;
+            '1' => 1;
+            '2' => 2;
+            '3' => 3;
+            '4' => 4;
+            '5' => 5;
+            '6' => 6;
+            '7' => 7;
+            '8' => 8;
+            '9' => 9;
+            otherwise =>
+              as(<integer>, as-lowercase(c)) - as(<integer>, 'a') + 10;
+          end select;
+        end;
+  local method expand-replace-sequence (marks :: <sequence>)
+	  if (expand-backreferences & member?('\\', new-substring))
+	    let return-string = "";
+	    let index = 0;
+	    while (index < size(new-substring))
+	      let newest-piece 
+		= if (new-substring[index] ~= '\\')
+		    as(<string>, new-substring[index]);
+		  else
+		    index := index + 1;
+		    if (~decimal-digit?(new-substring[index]))
+		      as(<string>, new-substring[index]);
+		    else
+		      let ref-number = digit-to-integer(new-substring[index]);
+		      if (marks[2 * ref-number] = #f)
+			"";
+		      else
+			copy-sequence(input, start: marks[2 * ref-number],
+				      end: marks[1 + 2 * ref-number]);
+		      end if;
+		    end if;
+		  end if;
+	      return-string := concatenate(return-string, newest-piece);
+	      index := index + 1;
+	    end while;
+	    return-string;
+	  else
+	    new-substring;
+	  end if;
+	end method expand-replace-sequence;
+
+  let result-string = copy-sequence(input, end: start);
+  let index = start;
+  let num-matches = 0;
+  block (done)
+    while (~count | num-matches < count)
+      let (#rest marks) = positioner(input, start: index, end: input-end);
+      if (marks[0] = #f) done() end;
+      result-string 
+	:= concatenate(result-string, 
+		       copy-sequence(input, start: index, end: marks[0]), 
+		       expand-replace-sequence(marks));
+      index := marks[1];
+      num-matches := num-matches + 1;
+    end while;
+  end block;
+  concatenate(result-string, copy-sequence(input, start: index));
+end function do-replacement;
+
+
 // todo -- Improve error message for <invalid-match-group> errors.
 //         Make %s and %= display the regex elided if it's too long.
 
