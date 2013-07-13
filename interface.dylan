@@ -188,8 +188,7 @@ end function make-regex-positioner;
 // Replace 'pattern' with 'replacement-text' in 'big'.
 // @param big -- The original text on which to perform the replacements.
 // @param pattern -- The regex to replace.
-// @param replatement -- The replacement text, or a function that accepts a
-//     single argument of type <regex-match> and returns the replacement text.
+// @param replatement -- The replacement text.
 // @param count -- If #f replace all occurrances, otherwise replace the first
 //     'count' occurrances starting from 'start'
 // @param start -- Where to begin the search.
@@ -198,7 +197,7 @@ end function make-regex-positioner;
 //   is #t.  (I don't believe this affects character set (e.g., [a-z]) matching.
 //   Check it.)
 define generic regex-replace
-    (big :: <string>, pattern :: <regex>, replacement :: type-union(<string>, <function>),
+    (big :: <string>, pattern :: <regex>, replacement :: <string>,
      #key start :: <integer>,
           end: epos :: <integer>,
           count :: false-or(<integer>),
@@ -206,7 +205,7 @@ define generic regex-replace
  => (new-string :: <string>);
 
 define method regex-replace
-    (big :: <string>, pattern :: <regex>, replacement :: type-union(<string>, <function>),
+    (big :: <string>, pattern :: <regex>, replacement :: <string>,
      #key count :: false-or(<integer>),
           start :: <integer> = 0,
           end: epos :: <integer> = big.size,
