@@ -61,8 +61,13 @@ define class <mark> (<parsed-regex>)
   constant slot group-number :: <integer>, required-init-keyword: #"group";
 end class <mark>;
 
+define sealed generic regex-pattern
+    (regex :: <regex>) => (pattern :: <string>);
+define sealed generic regex-group-count
+    (regex :: <regex>) => (count :: <integer>);
+
 // The root of the parsed regex, i.e., this is what's returned by the parser.
-define class <regex> (<mark>)
+define sealed class <regex> (<mark>)
   // exported
   constant slot regex-pattern :: <string>,
     required-init-keyword: pattern:;
@@ -119,8 +124,11 @@ end class <parsed-backreference>;
 define class <regex-error> (<format-string-condition>, <error>)
 end class <regex-error>;
 
+define generic regex-error-pattern
+    (error :: <invalid-regex>) => (pattern :: <string>);
+
 define class <invalid-regex> (<regex-error>)
-  constant slot regex-pattern :: <string>, 
+  constant slot regex-error-pattern :: <string>, 
     required-init-keyword: #"pattern";
 end class <invalid-regex>;
 

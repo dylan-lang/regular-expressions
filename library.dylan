@@ -46,6 +46,7 @@ define module regular-expressions
     <regex-match>,
     <match-group>,
     <regex-error>,
+      regex-error-pattern,
     <invalid-regex>,
     <invalid-match-group>,
 
