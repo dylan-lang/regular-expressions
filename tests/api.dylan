@@ -8,6 +8,8 @@ define module-spec regular-expressions ()
   sealed instantiable class <regex> (<mark>);
   sealed instantiable class <regex-error> (<format-string-condition>, <error>);
   sealed instantiable class <invalid-regex> (<regex-error>);
+  sealed generic-function regex-error-pattern
+      (<invalid-regex>) => (<string>);
   sealed instantiable class <invalid-match-group> (<regex-error>);
   sealed instantiable class <match-group> (<object>);
   sealed instantiable class <regex-match> (<object>);
@@ -204,6 +206,10 @@ define sideways method make-test-instance
     (class == <invalid-regex>) => (error :: <invalid-regex>)
   make(<invalid-regex>, pattern: "[unterminated")
 end;
+
+define regular-expressions function-test regex-error-pattern ()
+  //---*** Fill this in...
+end function-test regex-error-pattern;
 
 define regular-expressions function-test regex-search-strings ()
   //---*** Fill this in...
