@@ -188,7 +188,7 @@ end function make-regex-positioner;
 // Replace 'pattern' with 'replacement-text' in 'big'.
 // @param big -- The original text on which to perform the replacements.
 // @param pattern -- The regex to replace.
-// @param replatement -- The replacement text.
+// @param replacement -- The replacement text.
 // @param count -- If #f replace all occurrances, otherwise replace the first
 //     'count' occurrances starting from 'start'
 // @param start -- Where to begin the search.
