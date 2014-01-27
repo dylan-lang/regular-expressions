@@ -229,7 +229,7 @@ define function make-pcre-locator
   let source-directory = environment-variable("OPEN_DYLAN_USER_SOURCES");
   if (source-directory)
     let dir = subdirectory-locator(as(<directory-locator>, source-directory),
-                                   "libraries",
+                                   "lib",
                                    "regular-expressions",
                                    "tests");
     make(<file-locator>, directory: dir, name: filename)
