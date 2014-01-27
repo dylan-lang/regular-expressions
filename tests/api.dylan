@@ -1,9 +1,5 @@
 Module: regular-expressions-test-suite
 
-define library-spec regular-expressions-api ()
-  module regular-expressions;
-end library-spec regular-expressions-api;
-
 define module-spec regular-expressions ()
   sealed instantiable class <regex> (<mark>);
   sealed instantiable class <regex-error> (<format-string-condition>, <error>);
@@ -266,3 +262,6 @@ define regular-expressions function-test regex-pattern ()
 end function-test regex-pattern;
 
 
+define library-spec regular-expressions-api ()
+  module regular-expressions;
+end;
