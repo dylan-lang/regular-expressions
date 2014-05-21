@@ -16,11 +16,11 @@ define function check-matches
   let regex = apply(compile-regex, pattern, flags);
   let match = regex-search(regex, input-string);
   if (empty?(groups))
-    check-false(sprintf("Regex '%s' matches '%s'", pattern, input-string),
+    check-false(format-to-string("Regex '%s' matches '%s'", pattern, input-string),
                 match);
   else
     for (group in groups, i from 0)
-      check-equal(sprintf("Regex '%s' group %d is '%s'", pattern, i, group),
+      check-equal(format-to-string("Regex '%s' group %d is '%s'", pattern, i, group),
                   group,
                   if (match)
                     match-group(match, i)
@@ -118,7 +118,7 @@ define test invalid-regex-test ()
     "((a)b|"
     );
   for (pattern in patterns)
-    check-condition(sprintf("Compiling '%s' gets an error", pattern),
+    check-condition(format-to-string("Compiling '%s' gets an error", pattern),
                     <invalid-regex>,
                     compile-regex(pattern));
   end;

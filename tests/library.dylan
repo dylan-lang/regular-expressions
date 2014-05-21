@@ -18,8 +18,8 @@ define library regular-expressions-test-suite
 end library regular-expressions-test-suite;
 
 define module regular-expressions-test-suite
-  use common-dylan,
-    rename: { format-to-string => sprintf };
+  use common-dylan;
+  use simple-io;
   use regex-implementation;
   use file-system;
   use locators,

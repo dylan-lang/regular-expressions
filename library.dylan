@@ -74,6 +74,7 @@ define module regex-implementation
   use common-dylan;
   use dylan-extensions,
     import: { <byte-character>, string-hash };
+  use simple-io;
   use strings,
     import: { char-equal-ic?,
               decimal-digit? };

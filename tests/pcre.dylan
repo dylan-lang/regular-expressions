@@ -113,8 +113,8 @@ define function check-pcre-section
         end;
       end;
       if (regex)
-        check-no-errors(sprintf("search for %s in %s",
-                                test-string, regex.regex-pattern),
+        check-no-errors(format-to-string("search for %s in %s",
+                                         test-string, regex.regex-pattern),
                         regex-search(regex, test-string));
         let match = block ()
                       regex-search(regex, test-string)
@@ -167,7 +167,7 @@ define function parse-pcre-regex
   let (pattern, flags) = read-pattern-and-flags();
   //test-output("pattern: '%s' (flags = '%s')\n", pattern, flags);
   for (flag in flags)
-    check-true(sprintf("For regex '%s', flag '%s' is recognized", pattern, flag),
+    check-true(format-to-string("For regex '%s', flag '%s' is recognized", pattern, flag),
                member?(flag, "ixms"));
   end for;
   block ()
@@ -181,7 +181,7 @@ define function parse-pcre-regex
   // <invalid-character-set-description> which isn't related to <regex-error>
   // (and isn't even exported).
   exception (ex :: <error>)
-    check-true(sprintf("can compile regex '%s'", pattern), #f);
+    check-true(format-to-string("can compile regex '%s'", pattern), #f);
     //test-output("  ERROR: %s\n", ex);
     #f
   end block
@@ -199,8 +199,8 @@ define function compare-to-pcre-results
      pcre-groups :: <sequence>)
  => ()
   if (match)
-    check-equal(sprintf("Match '%s' against regex '%s' -- same # of groups",
-                        test-string, pattern),
+    check-equal(format-to-string("Match '%s' against regex '%s' -- same # of groups",
+                                 test-string, pattern),
                 size(groups-by-position(match)),
                 pcre-groups.size);
     for (group-number from 0,
@@ -211,14 +211,14 @@ define function compare-to-pcre-results
       let our-group = /* if (group-number < size(groups-by-position(match))) */
                         match-group(match, group-number)
                       /* end */;
-      check-equal(sprintf("Match '%s' against regex '%s' -- group %d is the same",
-                          test-string, pattern, group-number),
+      check-equal(format-to-string("Match '%s' against regex '%s' -- group %d is the same",
+                                   test-string, pattern, group-number),
                   our-group,
                   pcre-group);
     end;
   else
-    check-equal(sprintf("Regex '%s' doesn't match test string '%s'",
-                        pattern, test-string),
+    check-equal(format-to-string("Regex '%s' doesn't match test string '%s'",
+                                 pattern, test-string),
                 0,
                 pcre-groups.size);
   end if;
