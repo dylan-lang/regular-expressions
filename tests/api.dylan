@@ -77,7 +77,7 @@ define regular-expressions function-test regex-position ()
 
   check-pos("pos test #a",
             "\\bthe rain (in){1,5} spain$",
-            "the rain in spain", 
+            "the rain in spain",
             #[0, 17, 9, 11]);
   check-pos("pos test #b",
             "\\bthe rain (in){1,5} spain$",
@@ -88,7 +88,7 @@ define regular-expressions function-test regex-position ()
             "the rain ininin spain",
             #[0, 21, 13, 15]);
   check-pos("pos test #d",
-            "\\bthe rain (in){1,5} spain$", 
+            "\\bthe rain (in){1,5} spain$",
             "bork the rain in spain",
             #[5, 22, 14, 16]);
   check-pos("pos test #e",

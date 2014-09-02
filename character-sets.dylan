@@ -8,25 +8,25 @@ Copyright: see below
 // Copyright (c) 1994  Carnegie Mellon University
 // Copyright (c) 1998, 1999, 2000  Gwydion Dylan Maintainers
 // All rights reserved.
-// 
+//
 // Use and copying of this software and preparation of derivative
 // works based on this software are permitted, including commercial
 // use, provided that the following conditions are observed:
-// 
+//
 // 1. This copyright notice must be retained in full on any copies
 //    and on appropriate parts of any derivative works.
 // 2. Documentation (paper or online) accompanying any system that
 //    incorporates this software, or any part of it, must acknowledge
 //    the contribution of the Gwydion Project at Carnegie Mellon
 //    University, and the Gwydion Dylan Maintainers.
-// 
+//
 // This software is made available "as is".  Neither the authors nor
 // Carnegie Mellon University make any warranty about the software,
 // its performance, or its conformity to any specification.
-// 
+//
 // Bug reports should be sent to <gd-bugs@gwydiondylan.org>; questions,
 // comments and suggestions are welcome at <gd-hackers@gwydiondylan.org>.
-// Also, see http://www.gwydiondylan.org/ for updates and documentation. 
+// Also, see http://www.gwydiondylan.org/ for updates and documentation.
 //
 //======================================================================
 
@@ -50,7 +50,7 @@ define inline function byte-character?
 end;
 
 define method xor
-    (value1 :: <object>, value2 :: <object>) 
+    (value1 :: <object>, value2 :: <object>)
  => (answer :: <object>)
   if (value1)
     ~value2
@@ -122,7 +122,7 @@ define sealed method initialize
       set.byte-characters[as(<character>, i)] := #t;
     end for;
   end if;
-    
+
   handle-single-chars!(set, chars);
 
   let shmoonicode-ranges = #();
@@ -131,9 +131,9 @@ define sealed method initialize
     let last = tail(range);
     if (byte-character?(first) & byte-character?(last))
       for (c = first then successor(c), until: c > last)
-	add-to-byte-vector!(set, c);
+        add-to-byte-vector!(set, c);
       end for;
-    else 
+    else
       shmoonicode-ranges := add!(shmoonicode-ranges, range);
     end if;
   end for;
@@ -178,7 +178,7 @@ end method element;
 // test: is accepted but ignored.
 //
 define method member?
-    (char :: <byte-character>, set :: <character-set>, 
+    (char :: <byte-character>, set :: <character-set>,
      #key test :: <function> = key-test(set))
  => (answer :: <boolean>)
   if (test == key-test(set))
@@ -186,7 +186,7 @@ define method member?
   else
     block (return)
       for (elem :: <character> in set)
-	if (test(char, elem))
+        if (test(char, elem))
           return(#t)
         end if;
       end for;
@@ -201,11 +201,11 @@ define method member?
      #key test :: <function> = key-test(set))
  => (answer :: <boolean>)
   if (test == key-test(set))
-    xor(in-single-chars?(set, c) | in-ranges?(c, set),	set.negated-set?)
+    xor(in-single-chars?(set, c) | in-ranges?(c, set),        set.negated-set?)
   else
     block (return)
       for (elem :: <character> in set)
-	if (test(c, elem))
+        if (test(c, elem))
           return(#t)
         end if;
       end for;
@@ -236,7 +236,7 @@ define method as
     (type == <character-set>, coll :: <collection>)
  => (set :: <character-set>)
   error("Need to specify whether you want a <case-sensitive-character-set>"
-	  " or a <case-insensitive-character-set>");
+          " or a <case-insensitive-character-set>");
 end method as;
 
 define method as
@@ -285,25 +285,25 @@ define method parse-description
       let escaped-char = lookahead(ps);
       consume(ps);
       select (escaped-char by \==)
-	'n' => char-list  := add!(char-list, '\n');    // newline
-	't' => char-list  := add!(char-list, '\t');    // tab
-	'f' => char-list  := add!(char-list, '\f');    // formfeed
-	'r' => char-list  := add!(char-list, '\r');    // carriage return
-	'b' => char-list  := add!(char-list, '\b');    // backspace
+        'n' => char-list  := add!(char-list, '\n');    // newline
+        't' => char-list  := add!(char-list, '\t');    // tab
+        'f' => char-list  := add!(char-list, '\f');    // formfeed
+        'r' => char-list  := add!(char-list, '\r');    // carriage return
+        'b' => char-list  := add!(char-list, '\b');    // backspace
 
-	'd' => range-list := add!(range-list, pair('0', '9'));  // digit-char
+        'd' => range-list := add!(range-list, pair('0', '9'));  // digit-char
 
-	'w' =>                                              // word-char
-	  range-list := concatenate(range-list, list(pair('a', 'z'), 
-						     pair('A', 'Z'), 
-						     pair('0', '9')));
-	  char-list := add!(char-list, '_');
+        'w' =>                                              // word-char
+          range-list := concatenate(range-list, list(pair('a', 'z'),
+                                                     pair('A', 'Z'),
+                                                     pair('0', '9')));
+          char-list := add!(char-list, '_');
 
         // Whitespace
         // Note this is perl compatible, but not the same as the POSIX "space"
         // class, because it doesn't contain the VT character (code 11).
-	's' => char-list := concatenate(char-list, " \t\n\r\f");
-	otherwise => char-list := add!(char-list, escaped-char);
+        's' => char-list := concatenate(char-list, " \t\n\r\f");
+        otherwise => char-list := add!(char-list, escaped-char);
       end select;
     else
       char-list := add!(char-list, char);
@@ -348,7 +348,7 @@ define method in-ranges?
   block (return)
     for (range in set.char-ranges)
       if (c >= head(range) & c <= tail(range))
-	return(#t);
+        return(#t);
       end if;
     end for;
     #f
@@ -361,11 +361,11 @@ define method in-ranges?
   block (return)
     for (range in set.char-ranges)
       if (as-lowercase(c) >= head(range)
-	    & as-lowercase(c) <= tail(range))
-	return(#t);
+            & as-lowercase(c) <= tail(range))
+        return(#t);
       elseif (as-uppercase(c) >= head(range)
-		& as-uppercase(c) <= tail(range))
-	return(#t);
+                & as-uppercase(c) <= tail(range))
+        return(#t);
       end if;
     end for;
     #f
@@ -428,92 +428,92 @@ define method forward-iteration-protocol
     let state = make(<char-set-iterator>);
     block (return)
       for (ch in set.byte-characters, i from 0)
-	if (ch)
-	  state.index := i;
-	  state.char := as(<character>, i);
-	  return();
-	end if;
+        if (ch)
+          state.index := i;
+          state.char := as(<character>, i);
+          return();
+        end if;
       end for;
       new-phase(#"range", set, state);
     end block;
     values(state,
-	   #f,                 // limit
-	   // next
-	   method (set :: <character-set>, state :: <char-set-iterator>)
-	    => next-state :: <char-set-iterator>;
-	     select (state.phase)
-	       #"byte" =>
-		 block (return)
-		   let chars = set.byte-characters;
-		   for (i from state.index + 1 below chars.size)
-		     let ch = as(<character>, i);
-		     if (chars[ch])
-		       state.index := i;
-		       state.char := ch;
-		       return();
-		     end if;
-		   end for;
-		   new-phase(#"range", set, state);
-		 end block;
-	       #"range" =>
-		 let new-char = state.char.successor;
-		 case
-		   (new-char <= set.char-ranges[state.index].tail) =>
-		     state.char := new-char;
-		   (state.index + 1 < set.char-ranges.size) =>
-		     state.index := state.index + 1;
-		     state.char := set.char-ranges[state.index].head;
-		   otherwise =>
-		     new-phase(#"single", set, state);
-		 end case;
-	       #"single" =>
-		 let new-index = state.index + 1;
-		 if (new-index < set.single-chars.size)
-		   state.index := new-index;
-		   state.char := set.single-chars[new-index];
-		 else
-		   state.phase := #"done";
-		 end if;
-	       otherwise =>
-		 error("Attempt to advance a finished character-set iterator");
-	     end select;
-	     state;
-	   end method,
-	   
-	   // finished?
-	   method (set :: <character-set>, state :: <char-set-iterator>, 
-		   limit == #f) // KJP: <false> -> == #f
-	    => answer :: <boolean>;
-	     state.phase == #"done";
-	   end method,
+           #f,                 // limit
+           // next
+           method (set :: <character-set>, state :: <char-set-iterator>)
+            => next-state :: <char-set-iterator>;
+             select (state.phase)
+               #"byte" =>
+                 block (return)
+                   let chars = set.byte-characters;
+                   for (i from state.index + 1 below chars.size)
+                     let ch = as(<character>, i);
+                     if (chars[ch])
+                       state.index := i;
+                       state.char := ch;
+                       return();
+                     end if;
+                   end for;
+                   new-phase(#"range", set, state);
+                 end block;
+               #"range" =>
+                 let new-char = state.char.successor;
+                 case
+                   (new-char <= set.char-ranges[state.index].tail) =>
+                     state.char := new-char;
+                   (state.index + 1 < set.char-ranges.size) =>
+                     state.index := state.index + 1;
+                     state.char := set.char-ranges[state.index].head;
+                   otherwise =>
+                     new-phase(#"single", set, state);
+                 end case;
+               #"single" =>
+                 let new-index = state.index + 1;
+                 if (new-index < set.single-chars.size)
+                   state.index := new-index;
+                   state.char := set.single-chars[new-index];
+                 else
+                   state.phase := #"done";
+                 end if;
+               otherwise =>
+                 error("Attempt to advance a finished character-set iterator");
+             end select;
+             state;
+           end method,
 
-	   // key
-	   method (set :: <character-set>, state :: <char-set-iterator>) 
-	    => state :: <character>;
-	     state.char;
-	   end method,
-	   
-	   // element
-	   method (set :: <character-set>, state :: <char-set-iterator>)
-	    => state :: <character>;
-	     state.char;
-	   end method,
+           // finished?
+           method (set :: <character-set>, state :: <char-set-iterator>,
+                   limit == #f) // KJP: <false> -> == #f
+            => answer :: <boolean>;
+             state.phase == #"done";
+           end method,
 
-	   // element-setter
-	   method (value, set :: <character-set>, state :: <char-set-iterator>) 
-	    => state :: <character>;
-	     error("Character sets are immutable");
-	   end method,
+           // key
+           method (set :: <character-set>, state :: <char-set-iterator>)
+            => state :: <character>;
+             state.char;
+           end method,
 
-	   // copy-state
-	   method (set :: <character-set>, state :: <char-set-iterator>) 
-	    => state :: <char-set-iterator>;
-	     make(<char-set-iterator>, phase: state.phase, index: state.index,
-		  char: state.char);
-	   end method)
+           // element
+           method (set :: <character-set>, state :: <char-set-iterator>)
+            => state :: <character>;
+             state.char;
+           end method,
+
+           // element-setter
+           method (value, set :: <character-set>, state :: <char-set-iterator>)
+            => state :: <character>;
+             error("Character sets are immutable");
+           end method,
+
+           // copy-state
+           method (set :: <character-set>, state :: <char-set-iterator>)
+            => state :: <char-set-iterator>;
+             make(<char-set-iterator>, phase: state.phase, index: state.index,
+                  char: state.char);
+           end method)
   end if
 end method forward-iteration-protocol;
-  
+
 define method forward-iteration-protocol
     (set :: <case-insensitive-character-set>)
  => (initial-state :: <object>, limit :: <object>, next-state :: <function>,
@@ -575,58 +575,58 @@ define method slow-char-set-iterator
      copy-state :: <function>)
   let max-char :: <character>
     = if (set.negated-set?)
-	$max-character;
+        $max-character;
       else
-	guess-max-char(set);
+        guess-max-char(set);
       end if;
   local method find-next
-	    (set :: <character-set>, ch :: <character>, limit :: <character>)
-	 => (result :: false-or(<character>));
-	  block (return)
-	    for (c = ch then successor(c), until: member?(c, set))
-	      if (c == limit) return(#f) end if;
-	    finally
-	      c;
-	    end for;
-	  end block;
-	end method find-next;
+            (set :: <character-set>, ch :: <character>, limit :: <character>)
+         => (result :: false-or(<character>));
+          block (return)
+            for (c = ch then successor(c), until: member?(c, set))
+              if (c == limit) return(#f) end if;
+            finally
+              c;
+            end for;
+          end block;
+        end method find-next;
   values(find-next(set, as(<character>, 0), max-char), #f,
-	 // next
-	 method (set :: <character-set>, state :: <character>)
-	  => next-state :: false-or(<character>);
-	   state ~== max-char & find-next(set, state.successor, max-char);
-	 end method,
-	 
-	 // finished?
-	 method (set :: <character-set>, state :: false-or(<character>), 
-		 limit == #f) // KJP: <false> -> #f
-	  => answer :: <boolean>;
-	   ~state;
-	 end method,
+         // next
+         method (set :: <character-set>, state :: <character>)
+          => next-state :: false-or(<character>);
+           state ~== max-char & find-next(set, state.successor, max-char);
+         end method,
 
-	 // key
-	 method (set :: <character-set>, state :: <character>) 
-	  => state :: <character>;
-	   state;
-	 end method,
-	 
-	 // element
-	 method (set :: <character-set>, state :: <character>)
-	  => state :: <character>;
-	   state;
-	 end method,
+         // finished?
+         method (set :: <character-set>, state :: false-or(<character>),
+                 limit == #f) // KJP: <false> -> #f
+          => answer :: <boolean>;
+           ~state;
+         end method,
 
-	 // element-setter
-	 method (value, set :: <character-set>, state :: <character>) 
-	  => state :: <character>;
-	   error("Character sets are immutable");
-	 end method,
+         // key
+         method (set :: <character-set>, state :: <character>)
+          => state :: <character>;
+           state;
+         end method,
 
-	 // copy-state
-	 method (set :: <character-set>, state :: <character>) 
-	  => state :: <character>;
-	   state;
-	 end method)
+         // element
+         method (set :: <character-set>, state :: <character>)
+          => state :: <character>;
+           state;
+         end method,
+
+         // element-setter
+         method (value, set :: <character-set>, state :: <character>)
+          => state :: <character>;
+           error("Character sets are immutable");
+         end method,
+
+         // copy-state
+         method (set :: <character-set>, state :: <character>)
+          => state :: <character>;
+           state;
+         end method)
 end method slow-char-set-iterator;
 
 // -----------------------------------------------------------------
@@ -637,16 +637,16 @@ end method slow-char-set-iterator;
 //
 define class <byte-character-table> (<mutable-explicit-key-collection>)
   constant slot jump-vector :: <simple-object-vector>, // KJP: constant
-    init-function: method () 
-		     make(<simple-object-vector>, size: 256, fill: #f) 
-		   end;
+    init-function: method ()
+                     make(<simple-object-vector>, size: 256, fill: #f)
+                   end;
 end class <byte-character-table>;
 
 // This function doesn't believe in the concept of defaults.
 // The parameter is there only to make the compiler happy.
 //
-define method element 
-    (jt :: <byte-character-table>, key :: <character>, #key default: default = #f) 
+define method element
+    (jt :: <byte-character-table>, key :: <character>, #key default: default = #f)
  => (elt :: <object>)
   jt.jump-vector[as(<integer>, key)]
 end;
@@ -663,13 +663,13 @@ define method forward-iteration-protocol
      current-element :: <function>, current-element-setter :: <function>,
      copy-state :: <function>)
   values(0, 256,        // init and limit
-	 method (coll, state) state + 1 end,               // next-state
-	 method (coll, state, limit) state >= limit end,   // finished-state?
-	 method (coll, state) as(<character>, state) end,  // current-key
-	 method (coll, state) jt.jump-vector[state] end,   // current-elt
-	 method (value, coll, state) jt.jump-vector[state] := value end,
-	                // Current-elt-setter
-	 method (coll, state) state end)                  // copy-state
+         method (coll, state) state + 1 end,               // next-state
+         method (coll, state, limit) state >= limit end,   // finished-state?
+         method (coll, state) as(<character>, state) end,  // current-key
+         method (coll, state) jt.jump-vector[state] end,   // current-elt
+         method (value, coll, state) jt.jump-vector[state] := value end,
+                        // Current-elt-setter
+         method (coll, state) state end)                  // copy-state
 end method forward-iteration-protocol;
 
 define sealed domain make(singleton(<case-sensitive-character-set>));

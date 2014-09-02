@@ -7,25 +7,25 @@ copyright: see below
 // Copyright (c) 1994  Carnegie Mellon University
 // Copyright (c) 1998, 1999, 2000  Gwydion Dylan Maintainers
 // All rights reserved.
-// 
+//
 // Use and copying of this software and preparation of derivative
 // works based on this software are permitted, including commercial
 // use, provided that the following conditions are observed:
-// 
+//
 // 1. This copyright notice must be retained in full on any copies
 //    and on appropriate parts of any derivative works.
 // 2. Documentation (paper or online) accompanying any system that
 //    incorporates this software, or any part of it, must acknowledge
 //    the contribution of the Gwydion Project at Carnegie Mellon
 //    University, and the Gwydion Dylan Maintainers.
-// 
+//
 // This software is made available "as is".  Neither the authors nor
 // Carnegie Mellon University make any warranty about the software,
 // its performance, or its conformity to any specification.
-// 
+//
 // Bug reports should be sent to <gd-bugs@gwydiondylan.org>; questions,
 // comments and suggestions are welcome at <gd-hackers@gwydiondylan.org>.
-// Also, see http://www.gwydiondylan.org/ for updates and documentation. 
+// Also, see http://www.gwydiondylan.org/ for updates and documentation.
 //
 //======================================================================
 
@@ -98,7 +98,7 @@ define class <quantified-atom> (<parsed-regex>)
   slot atom :: <parsed-regex>, required-init-keyword: #"atom";
   constant slot min-matches :: <integer>, init-value: 0,
     init-keyword: #"min";
-  constant slot max-matches :: false-or(<integer>), init-value: #f, 
+  constant slot max-matches :: false-or(<integer>), init-value: #f,
     init-keyword: #"max";
 end class <quantified-atom>;
 
@@ -118,7 +118,7 @@ define class <parsed-set> (<parsed-atom>)
 end class <parsed-set>;
 
 define class <parsed-backreference> (<parsed-atom>)
-  constant slot group-number :: <integer>, required-init-keyword: #"group"; 
+  constant slot group-number :: <integer>, required-init-keyword: #"group";
 end class <parsed-backreference>;
 
 define class <regex-error> (<format-string-condition>, <error>)
@@ -128,7 +128,7 @@ define generic regex-error-pattern
     (error :: <invalid-regex>) => (pattern :: <string>);
 
 define class <invalid-regex> (<regex-error>)
-  constant slot regex-error-pattern :: <string>, 
+  constant slot regex-error-pattern :: <string>,
     required-init-keyword: #"pattern";
 end class <invalid-regex>;
 
@@ -256,7 +256,7 @@ define method parse
  => (regex :: <parsed-regex>,
      last-group :: <integer>,
      backrefs? :: <boolean>,
-     alternatives? :: <boolean>, 
+     alternatives? :: <boolean>,
      quantifiers? :: <boolean>)
   let parse-string = make(<parse-string>, string: regex);
   let child = parse-regex(parse-string, parse-info);
@@ -265,16 +265,16 @@ define method parse
                         group: 0,
                         group-count: parse-info.current-group-number + 1,
                         group-number-to-name: parse-info.group-number-to-name,
-			child: child);
+                        child: child);
   let optimized-regex = optimize(parse-tree);
   if (optimized-regex.pathological?)
     parse-error(regex, "A subpattern that matches the empty string was quantified.");
   else
     values(optimized-regex,
-	   parse-info.current-group-number,
-	   parse-info.has-back-references?,
-	   parse-info.has-alternatives?,
-	   parse-info.has-quantifiers?);
+           parse-info.current-group-number,
+           parse-info.has-back-references?,
+           parse-info.has-alternatives?,
+           parse-info.has-quantifiers?);
   end if
 end method parse;
 
@@ -409,7 +409,7 @@ define method parse-atom (str :: <parse-string>, info :: <parse-info>)
     '$' =>
       consume(str);
       make(<parsed-assertion>, assertion: #"end-of-string");
-  
+
       // Insert more special characters here
 
     otherwise =>
@@ -592,7 +592,7 @@ end function parse-character-set;
 // This only handles escaped characters *outside* of a character
 // set. Inside of a character set is a whole different story.
 //
-define method parse-escaped-character 
+define method parse-escaped-character
     (str :: <parse-string>, info :: <parse-info>)
  => parsed-regex :: <parsed-regex>;
   let next-char = lookahead(str);
@@ -677,21 +677,21 @@ define method initial-substring (regex :: <parsed-regex>)
  => (result :: <string>);
   let result = make(<deque>);
   local method init (regex :: <parsed-regex>, result :: <deque>)
-	  select (regex by instance?)
-	    <alternative> =>
-	      init(regex.left, result) & init(regex.right, result);
-	    <parsed-character> =>
-	      push-last(result, regex.character);
-	    <parsed-string> =>
-	      for (ch in regex.string) push-last(result, ch) end for;
-	    <mark> =>
-	      init(regex.child, result);
-	    <parsed-assertion> =>
-	      #t;
-	    otherwise =>
-	      #f;
-	  end select;
-	end method init;
+          select (regex by instance?)
+            <alternative> =>
+              init(regex.left, result) & init(regex.right, result);
+            <parsed-character> =>
+              push-last(result, regex.character);
+            <parsed-string> =>
+              for (ch in regex.string) push-last(result, ch) end for;
+            <mark> =>
+              init(regex.child, result);
+            <parsed-assertion> =>
+              #t;
+            otherwise =>
+              #f;
+          end select;
+        end method init;
   init(regex, result);
   as(<byte-string>, result);
 end method initial-substring;
@@ -708,29 +708,29 @@ define method optimize (regex :: <parsed-regex>)
       regex;
     <alternative> =>
       if (instance?(regex.left, <parsed-character>))
-	let result-str = make(<deque>);
-	push-last(result-str, regex.left.character);
-	for (next = regex.right then next.right,
-	     while: (instance?(next, <alternative>)
-		       & instance?(next.left, <parsed-character>)))
-	  push-last(result-str, next.left.character)
-	finally
-	  if (instance?(next, <parsed-character>))
-	    push-last(result-str, next.character);
-	    make(<parsed-string>, string: as(<string>, result-str));
-	  elseif (result-str.size = 1)
-	    regex.right := optimize(regex.right);
-	    regex;
-	  else
-	    make(<alternative>,
-		 left: make(<parsed-string>, string: as(<string>, result-str)),
-		 right: optimize(next));
-	  end if;
-	end for;
+        let result-str = make(<deque>);
+        push-last(result-str, regex.left.character);
+        for (next = regex.right then next.right,
+             while: (instance?(next, <alternative>)
+                       & instance?(next.left, <parsed-character>)))
+          push-last(result-str, next.left.character)
+        finally
+          if (instance?(next, <parsed-character>))
+            push-last(result-str, next.character);
+            make(<parsed-string>, string: as(<string>, result-str));
+          elseif (result-str.size = 1)
+            regex.right := optimize(regex.right);
+            regex;
+          else
+            make(<alternative>,
+                 left: make(<parsed-string>, string: as(<string>, result-str)),
+                 right: optimize(next));
+          end if;
+        end for;
       else
-	regex.left := optimize(regex.left);
-	regex.right := optimize(regex.right);
-	regex;
+        regex.left := optimize(regex.left);
+        regex.right := optimize(regex.right);
+        regex;
       end if;
     <union> =>
       regex.left := optimize(regex.left);

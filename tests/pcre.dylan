@@ -186,7 +186,7 @@ define function parse-pcre-regex
     #f
   end block
 end function parse-pcre-regex;
-  
+
 /*
  * pcre-groups is a sequence of strings where the nth element represents
  * the nth group in the pcre regex match.  If pcre-groups is empty then
