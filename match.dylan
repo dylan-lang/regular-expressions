@@ -361,8 +361,9 @@ define method descend-re
     (re :: <parsed-set>, target :: <substring>, case-sensitive? :: <boolean>,
      start-index :: <integer>, marks :: <mutable-sequence>,
      backtrack-past-me :: <non-local-exit>, up-list :: <list>) => ();
+  let test = if (case-sensitive?) \== else char-equal-ic? end;
   if (start-index < target.end-index
-        & member?(target.entire-string[start-index], re.char-set))
+        & member?(target.entire-string[start-index], re.char-set, test: test))
     head(up-list)(start-index + 1, backtrack-past-me, tail(up-list));
   else
     backtrack-past-me();

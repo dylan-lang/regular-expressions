@@ -70,8 +70,7 @@ define regular-expressions function-test regex-position ()
   check-pos("pos test #r", "a+", "AAaAA", #[0, 5], case-sensitive: #f);
   check-pos("pos test #s", "a+", "AAaAA", #[2, 3]);
   check-pos("pos test #t", "[a-f]+", "SdFbIeNvI", #[1, 2]);
-  // This one is failing due to bug 7371
-  check-pos("pos test #u", "[a-f]+", "SdFbIeNvI", #[1, 4], case-sensitve: #f);
+  check-pos("pos test #u", "[a-f]+", "SdFbIeNvI", #[1, 4], case-sensitive: #f);
   check-pos("pos test #v", "[\\s\\]]+", "blah[   \t]", #[5, 10]);
 
   // test escaped characters
@@ -108,10 +107,9 @@ end function-test regex-group-count;
 
 define regular-expressions function-test regex-search ()
   // Test case-sensitive parameter
-  // See bug 7371
+  check-false("regex-search(..., case-sensitive: #t) works on character sets",
+              regex-search(compile-regex("[a-z]"), "A", case-sensitive: #t));
   check-true("regex-search(..., case-sensitive: #f) works for character sets",
-             regex-search(compile-regex("[a-z]"), "A", case-sensitive: #f));
-  check-true("regex-search(..., case-sensitive: #t) works on character sets",
              regex-search(compile-regex("[a-z]"), "A", case-sensitive: #f));
   check-false("case-sensitive: #t works for regular strings",
               regex-search(compile-regex("abc"), "aBc", case-sensitive: #t));
