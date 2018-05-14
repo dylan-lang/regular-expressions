@@ -107,13 +107,12 @@ end function-test regex-group-count;
 
 define regular-expressions function-test regex-search ()
   // Test case-sensitive parameter
-  // See bug 7371
   check-false("regex-search(..., case-sensitive: #t) works on character sets",
-             regex-search(compile-regex("[a-z]"), "A", case-sensitive: #t));
+              regex-search(compile-regex("[a-z]"), "A", case-sensitive: #t));
   check-true("regex-search(..., case-sensitive: #f) works for character sets",
              regex-search(compile-regex("[a-z]"), "A", case-sensitive: #f));
   check-false("case-sensitive: #t works for regular strings",
-             regex-search(compile-regex("abc"), "aBc", case-sensitive: #t));
+              regex-search(compile-regex("abc"), "aBc", case-sensitive: #t));
   check-true("case-sensitive: #f works for regular strings",
              regex-search(compile-regex("abc"), "ABC", case-sensitive: #f));
 end function-test regex-search;

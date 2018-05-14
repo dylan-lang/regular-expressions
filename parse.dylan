@@ -522,10 +522,10 @@ define inline function parse-simple-group
                 let re = parse-regex(str, info);
                 if (lookahead(str) == ')')
                   consume(str)
-		else
-		  parse-error(str.parse-string,
-			      "Unterminated group at index %s.",
-			      str.parse-index);
+                else
+                  parse-error(str.parse-string,
+                              "Unterminated group at index %d.",
+                              str.parse-index);
                 end;
                 re
               end;
