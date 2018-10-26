@@ -52,6 +52,7 @@ define module regular-expressions
 
     // Compiling and accessing regex info
     compile-regex,
+    regex-parser,               // #regex:"..."
     regex-group-count,
     regex-pattern,
 

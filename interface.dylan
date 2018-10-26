@@ -128,6 +128,13 @@ define method compile-regex
   end
 end method compile-regex;
 
+// Enables #regex:"..." syntax, which has the advantage that the
+// string doesn't have backslash escape processing done on it. Note
+// that {}, [], (), and "" delimiters may be used.
+define function regex-parser (s :: <string>) => (_ :: <regex>)
+  compile-regex(s)
+end;
+
 // Find the position of a regular expression inside a string.  If the
 // regex is not found, return #f, otherwise return a variable number
 // of marks.  This is a low-level API, returning indices marking the
