@@ -1,5 +1,4 @@
 Module: regular-expressions-test-suite
-Author: Carl Gay
 
 // Helper function, e.g., check-matches("a(b|c)", "abc", "ab", "b")
 // Note that flags must come at the end of groups-and-flags.
@@ -162,5 +161,3 @@ define method main
 end;
 
 main();
-
-

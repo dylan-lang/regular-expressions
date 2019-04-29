@@ -19,7 +19,7 @@ end library regular-expressions-test-suite;
 
 define module regular-expressions-test-suite
   use common-dylan;
-  use simple-io;
+  use simple-format;
   use regex-implementation;
   use file-system;
   use locators,
