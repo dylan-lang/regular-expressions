@@ -36,9 +36,9 @@ define module-spec regular-expressions ()
   sealed generic-function groups-by-position
       (<regex-match>) => (<sequence>);
   sealed generic-function groups-by-name
-      (<regex-match>) => (<sequence>);
+      (<regex-match>) => (<string-table>);
   sealed generic-function match-group
-      (<regex-match>) => (false-or(<string>), false-or(<integer>), false-or(<integer>));
+      (<regex-match>, <object>) => (false-or(<string>), false-or(<integer>), false-or(<integer>));
 
   // Accessing individual group data
   sealed generic-function group-text

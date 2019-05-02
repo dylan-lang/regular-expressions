@@ -131,16 +131,19 @@ define suite pcre-test-suite ()
   test pcre-testoutput1;
 end;
 
+ignore(pcre-test-suite);
+
 define test regressions-test ()
   run-pcre-checks(make-pcre-locator("regression-tests.txt"));
 end;
+
+ignore(regressions-test);
 
 define suite regular-expressions-test-suite ()
   test split-test;
   test atom-test;
   test ad-hoc-regex-test;
   test invalid-regex-test;
-  test regressions-test;
 
   // I've changed lots of things that make the gdref documentation
   // out-of-date, but it still might be useful to look it over for
@@ -148,8 +151,11 @@ define suite regular-expressions-test-suite ()
   //test gdref-documentation-test;
 
   suite regular-expressions-api-test-suite;
-  // It's sometimes useful to use -ignore-suite to skip this one because it's so noisy.
-  suite pcre-test-suite;
+
+  // TODO(cgay): Commented out until https://github.com/dylan-lang/testworks/issues/98
+  // is fixed.
+  //suite pcre-test-suite;
+  //test regressions-test;
 end;
 
 define method main
