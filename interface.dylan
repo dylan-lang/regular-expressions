@@ -406,6 +406,10 @@ define method regex-search-strings
   end
 end method regex-search-strings;
 
+define generic group-start (group :: <match-group>) => (index :: <integer>);
+define generic group-end   (group :: <match-group>) => (index :: <integer>);
+define generic group-text  (group :: <match-group>) => (text :: <string>);
+
 define sealed class <match-group> (<object>)
   constant slot group-text :: <string>,
     required-init-keyword: text:;
@@ -414,6 +418,9 @@ define sealed class <match-group> (<object>)
   constant slot group-end :: <integer>,
     required-init-keyword: end:;
 end class <match-group>;
+
+define generic groups-by-position (match :: <regex-match>) => (groups :: <sequence>);
+define generic groups-by-name     (match :: <regex-match>) => (groups :: <string-table>);
 
 define sealed class <regex-match> (<object>)
   // Groups by position.  Zero is the entire match.
