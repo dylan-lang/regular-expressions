@@ -10,12 +10,9 @@ define library regular-expressions-test-suite
               operating-system };
   use strings;
   use testworks;
-  use testworks-specs;
   use regular-expressions,
     import: { regex-implementation };
-
-  export regular-expressions-test-suite;
-end library regular-expressions-test-suite;
+end library;
 
 define module regular-expressions-test-suite
   use common-dylan;
@@ -30,12 +27,9 @@ define module regular-expressions-test-suite
   use operating-system,
     import: { environment-variable };
   use testworks;
-  use testworks-specs;
   use streams;
   use strings,
     import: { strip-left };
-
-  export regular-expressions-test-suite;
-end module regular-expressions-test-suite;
+end module;
 
 

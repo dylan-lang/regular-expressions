@@ -1,6 +1,6 @@
 Module: regular-expressions-test-suite
 
-define regular-expressions function-test regex-position ()
+define test test-regex-position ()
   check-no-errors("regex-position with a regex regex",
                   regex-position(compile-regex("pattern"), "pattern"));
   local method check-pos
@@ -79,9 +79,9 @@ define regular-expressions function-test regex-position ()
   check-condition("pos test #y",
                   <invalid-regex>,
                   compile-regex("((a*)|(b*))*c"));
-end function-test regex-position;
+end test;
 
-define regular-expressions function-test regex-replace ()
+define test test-regex-replace ()
   let big-string = "The rain in spain and some other text";
   check-no-errors("regex-replace with regex pattern",
                   regex-replace(big-string,
@@ -99,13 +99,13 @@ define regular-expressions function-test regex-replace ()
   check-equal("regex-replace #4",
               regex-replace(big-string, compile-regex("in"), "out", start: 8, end: 15),
               "The rain out spain and some other text");
-end function-test regex-replace;
+end test;
 
-define regular-expressions function-test regex-group-count ()
+define test test-regex-group-count ()
   //---*** Fill this in...
-end function-test regex-group-count;
+end test;
 
-define regular-expressions function-test regex-search ()
+define test test-regex-search ()
   // Test case-sensitive parameter
   check-false("regex-search(..., case-sensitive: #t) works on character sets",
               regex-search(compile-regex("[a-z]"), "A", case-sensitive: #t));
@@ -115,9 +115,9 @@ define regular-expressions function-test regex-search ()
               regex-search(compile-regex("abc"), "aBc", case-sensitive: #t));
   check-true("case-sensitive: #f works for regular strings",
              regex-search(compile-regex("abc"), "ABC", case-sensitive: #f));
-end function-test regex-search;
+end test;
 
-define regular-expressions function-test compile-regex ()
+define test test-compile-regex ()
   // Test caching
   check-true("use-cache: #t uses the cache",
              compile-regex("abc") == compile-regex("abc", use-cache: #t));
@@ -128,84 +128,84 @@ define regular-expressions function-test compile-regex ()
   // Test verbose parameter
   // Test multi-line parameter
   // Test dot-matches-all parameter
-end function-test compile-regex;
+end test;
 
-define regular-expressions class-test <regex> ()
+define test test-<regex> ()
   //---*** Fill this in...
-end class-test <regex>;
+end test;
 
 define sideways method make-test-instance
     (class == <regex>) => (regex :: <regex>)
   compile-regex("foo")
 end;
 
-define regular-expressions class-test <regex-error> ()
+define test test-<regex-error> ()
   //---*** Fill this in...
-end class-test <regex-error>;
+end test;
 
-define regular-expressions class-test <invalid-regex> ()
+define test test-<invalid-regex> ()
   //---*** Fill this in...
-end class-test <invalid-regex>;
+end test;
 
 define sideways method make-test-instance
     (class == <invalid-regex>) => (error :: <invalid-regex>)
   make(<invalid-regex>, pattern: "[unterminated")
 end;
 
-define regular-expressions function-test regex-error-pattern ()
+define test test-regex-error-pattern ()
   //---*** Fill this in...
-end function-test regex-error-pattern;
+end test;
 
-define regular-expressions function-test regex-search-strings ()
+define test test-regex-search-strings ()
   //---*** Fill this in...
-end function-test regex-search-strings;
+end test;
 
-define regular-expressions class-test <invalid-match-group> ()
+define test test-<invalid-match-group> ()
   //---*** Fill this in...
-end class-test <invalid-match-group>;
+end test;
 
-define regular-expressions function-test group-text ()
+define test test-group-text ()
   //---*** Fill this in...
-end function-test group-text;
+end test;
 
-define regular-expressions function-test group-end ()
+define test test-group-end ()
   //---*** Fill this in...
-end function-test group-end;
+end test;
 
-define regular-expressions function-test group-start ()
+define test test-group-start ()
   //---*** Fill this in...
-end function-test group-start;
+end test;
 
-define regular-expressions function-test groups-by-name ()
+define test test-groups-by-name ()
   //---*** Fill this in...
-end function-test groups-by-name;
+end test;
 
-define regular-expressions function-test groups-by-position ()
+define test test-groups-by-position ()
   //---*** Fill this in...
-end function-test groups-by-position;
+end test;
 
-define regular-expressions function-test match-group ()
+define test test-match-group ()
   //---*** Fill this in...
-end function-test match-group;
+end test;
 
-define regular-expressions class-test <match-group> ()
+define test test-<match-group> ()
   //---*** Fill this in...
-end class-test <match-group>;
+end test;
 
 define sideways method make-test-instance
     (class == <match-group>) => (group :: <match-group>)
   make(<match-group>, text: "foo", start: 0, end: 3)
 end;
 
-define regular-expressions class-test <regex-match> ()
+define test test-<regex-match> ()
   //---*** Fill this in...
-end class-test <regex-match>;
+end test;
 
 define sideways method make-test-instance
     (class == <regex-match>) => (match :: <regex-match>)
   make(<regex-match>, regular-expression: compile-regex("foo"))
 end;
 
-define regular-expressions function-test regex-pattern ()
+define test test-regex-pattern ()
   //---*** Fill this in...
-end function-test regex-pattern;
+end test;
