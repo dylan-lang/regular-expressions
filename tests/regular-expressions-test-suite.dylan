@@ -123,47 +123,17 @@ define test invalid-regex-test ()
   end;
 end test invalid-regex-test;
 
-define test pcre-testoutput1 ()
-  run-pcre-checks(make-pcre-locator("pcre-testoutput1.txt"));
-end;
+// TODO(cgay): Commented out until https://github.com/dylan-lang/testworks/issues/98
+// is fixed.
 
-define suite pcre-test-suite ()
-  test pcre-testoutput1;
-end;
+// define test pcre-testoutput1 ()
+//   run-pcre-checks(make-pcre-locator("pcre-testoutput1.txt"));
+// end;
 
-ignore(pcre-test-suite);
+// define suite pcre-test-suite ()
+//   test pcre-testoutput1;
+// end;
 
-define test regressions-test ()
-  run-pcre-checks(make-pcre-locator("regression-tests.txt"));
-end;
-
-ignore(regressions-test);
-
-define suite regular-expressions-test-suite ()
-  test split-test;
-  test atom-test;
-  test ad-hoc-regex-test;
-  test invalid-regex-test;
-
-  // I've changed lots of things that make the gdref documentation
-  // out-of-date, but it still might be useful to look it over for
-  // test ideas.
-  //test gdref-documentation-test;
-
-  suite regular-expressions-api-test-suite;
-
-  // TODO(cgay): Commented out until https://github.com/dylan-lang/testworks/issues/98
-  // is fixed.
-  //suite pcre-test-suite;
-  //test regressions-test;
-end;
-
-define method main
-    () => ()
-  let filename = locator-name(as(<file-locator>, application-name()));
-  if (split(filename, ".")[0] = "regular-expressions-test-suite")
-    run-test-application(regular-expressions-test-suite);
-  end;
-end;
-
-main();
+// define test regressions-test ()
+//   run-pcre-checks(make-pcre-locator("regression-tests.txt"));
+// end;
