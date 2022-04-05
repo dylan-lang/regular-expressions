@@ -1,0 +1,27 @@
+name: build-and-test
+
+on:
+  push:
+    # all branches
+  pull_request:
+    branches:
+      - main
+      - master
+
+  # This enables the Run Workflow button on the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - uses: actions/checkout@v2
+
+      - uses: dylan-lang/install-opendylan@v1
+
+      - name: Build regular-expressions-test-suite
+        run: ./dylan-compiler -build regular-expressions-test-suite
+
+      - name: Run regular-expressions test suite
+        run: _build/bin/regular-expressions-test-suite
