@@ -3,3 +3,4 @@ files: library
        api
        specification
        regular-expressions-test-suite
+       main
