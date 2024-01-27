@@ -15,13 +15,16 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    
-      - uses: actions/checkout@v2
 
-      - uses: dylan-lang/install-opendylan@v1
+      - uses: actions/checkout@v4
+
+      - uses: dylan-lang/install-opendylan@v3
+
+      - name: Update dependencies
+        run: dylan update
 
       - name: Build regular-expressions-test-suite
-        run: ./dylan-compiler -build regular-expressions-test-suite
+        run: dylan build regular-expressions-test-suite
 
       - name: Run regular-expressions test suite
         run: _build/bin/regular-expressions-test-suite
