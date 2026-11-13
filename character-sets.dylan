@@ -145,14 +145,14 @@ end method initialize;
 // byte-vector to #t.
 //
 define method add-to-byte-vector!
-    (set :: <case-sensitive-character-set>, char :: <byte-character>)
+    (set :: <case-sensitive-character-set>, char :: <character>)
  => (false :: singleton(#f))
   set.byte-characters[char] := ~set.negated-set?;
   #f
 end method add-to-byte-vector!;
 
 define method add-to-byte-vector!
-    (set :: <case-insensitive-character-set>, char :: <byte-character>)
+    (set :: <case-insensitive-character-set>, char :: <character>)
  => (false :: singleton(#f))
   set.byte-characters[as-lowercase(char)] := ~set.negated-set?;
   set.byte-characters[as-uppercase(char)] := ~set.negated-set?;
@@ -175,33 +175,16 @@ define method element
   end if
 end method element;
 
-// test: is accepted but ignored.
-//
-define method member?
-    (char :: <byte-character>, set :: <character-set>,
-     #key test :: <function> = key-test(set))
- => (answer :: <boolean>)
-  if (test == key-test(set))
-    in-byte-vector?(set, char)
-  else
-    block (return)
-      for (elem :: <character> in set)
-        if (test(char, elem))
-          return(#t)
-        end if;
-      end for;
-    end block
-  end if
-end method member?;
-
-// char is not a byte-character
-//
 define method member?
     (c :: <character>, set :: <character-set>,
      #key test :: <function> = key-test(set))
  => (answer :: <boolean>)
   if (test == key-test(set))
-    xor(in-single-chars?(set, c) | in-ranges?(c, set),        set.negated-set?)
+    if (byte-character?(c))
+      in-byte-vector?(set, c)
+    else
+      xor(in-single-chars?(set, c) | in-ranges?(c, set),        set.negated-set?)
+    end if
   else
     block (return)
       for (elem :: <character> in set)
@@ -218,7 +201,7 @@ define method handle-single-chars!
  => (same-set :: <character-set>)
   let not-byte-chars = make(<shmoonicode-string>, size: 0);
   for (c in char-coll)
-    if (instance?(c, <byte-character>))
+    if (byte-character?(c))
       add-to-byte-vector!(set, c);
     else
       not-byte-chars := add!(not-byte-chars, c);
@@ -338,7 +321,7 @@ end method shallow-copy;
 // negated? bit.
 //
 define method in-byte-vector?
-    (set :: <character-set>, c :: <byte-character>) => (answer :: <boolean>)
+    (set :: <character-set>, c :: <character>) => (answer :: <boolean>)
   set.byte-characters[c]
 end;
 

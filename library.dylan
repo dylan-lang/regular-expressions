@@ -74,7 +74,7 @@ end module regular-expressions;
 define module regex-implementation
   use common-dylan;
   use dylan-extensions,
-    import: { <byte-character>, string-hash };
+    import: { string-hash };
   use simple-format;
   use strings,
     import: { char-equal-ic?,
